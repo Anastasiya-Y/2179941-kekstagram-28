@@ -1,3 +1,3 @@
-import {increasePublications} from './data.js';
+import {renderThumbnails} from './thumbnails.js';
 
-increasePublications();
+renderThumbnails();
