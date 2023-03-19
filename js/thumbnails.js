@@ -17,6 +17,6 @@ picturesGenerated.forEach(({url, description, likes, comments}) => {
   return pictureAdded;
 });
 
-const renderThumbnails = container.appendChild(picturesFragment);
+const renderThumbnails = () => container.appendChild(picturesFragment);
 
 export {renderThumbnails};
