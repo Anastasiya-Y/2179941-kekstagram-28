@@ -1,4 +1,5 @@
 import {renderThumbnails} from './thumbnails.js';
-import './big-picture.js';
+import {addFormAction} from './form.js';
 
+addFormAction();
 renderThumbnails();
