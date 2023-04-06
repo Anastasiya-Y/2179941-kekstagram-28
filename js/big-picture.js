@@ -81,7 +81,6 @@ function onBigPictureCancelClick(evt) {
   closeBigPicture();
 }
 
-
 function onDocumentKeydown(evt) {
   if (isEscapeKey(evt) && !evt.target.closest('.social__footer-text')) {
     evt.preventDefault();

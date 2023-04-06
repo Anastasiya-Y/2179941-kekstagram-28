@@ -2,7 +2,10 @@ import {isEscapeKey} from './util.js';
 import {activateScale, resetScale} from './form-scale.js';
 import {addValidator, resetPristine, validatePristine} from './form-validate.js';
 import {chooseEffect, resetFilter, createSlider} from './form-effects.js';
+import {sendData} from './api.js';
+import {renderFailMessage, renderSuccessMessage} from './form-message.js';
 
+const GET_DATA_URL = 'https://28.javascript.pages.academy/kekstagram';
 const form = document.querySelector('.img-upload__form');
 const overlay = form.querySelector('.img-upload__overlay');
 const uploadFileForm = form.querySelector('#upload-file');
@@ -27,6 +30,15 @@ const closeUploadFileForm = () => {
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
+const onSendSuccess = () => {
+  renderSuccessMessage();
+  closeUploadFileForm();
+};
+
+const onSendFail = () => {
+  renderFailMessage();
+};
+
 function onUploadCancelButtonClick(evt) {
   evt.preventDefault();
   closeUploadFileForm();
@@ -37,14 +49,18 @@ const onEffectsFieldChange = (evt) => chooseEffect(evt);
 
 function onDocumentKeydown(evt) {
   if (isEscapeKey(evt) && !evt.target.closest('.text__hashtags') && !evt.target.closest('.text__description')) {
+    if (document.querySelector('.error')) {
+      return;
+    }
     evt.preventDefault();
     closeUploadFileForm();
   }
 }
 
 const onFormSubmit = (evt) => {
-  if (!validatePristine()) {
-    evt.preventDefault();
+  evt.preventDefault();
+  if (validatePristine()) {
+    sendData(GET_DATA_URL, onSendSuccess, onSendFail, new FormData(evt.target));
   }
 };
 
