@@ -4,6 +4,7 @@ import {addValidator, resetPristine, validatePristine} from './form-validate.js'
 import {chooseEffect, resetFilter, createSlider} from './form-effects.js';
 import {sendData} from './api.js';
 import {renderFailMessage, renderSuccessMessage} from './form-message.js';
+import {getUploadedPhoto} from './uploaded-photo.js';
 
 const GET_DATA_URL = 'https://28.javascript.pages.academy/kekstagram';
 const form = document.querySelector('.img-upload__form');
@@ -11,6 +12,7 @@ const overlay = form.querySelector('.img-upload__overlay');
 const uploadFileForm = form.querySelector('#upload-file');
 const uploadCancelButton = form.querySelector('#upload-cancel');
 const effectsField = form.querySelector('.effects');
+const submitButton = form.querySelector('.img-upload__submit');
 
 const openUploadFileForm = () => {
   overlay.classList.remove('hidden');
@@ -33,10 +35,12 @@ const closeUploadFileForm = () => {
 const onSendSuccess = () => {
   renderSuccessMessage();
   closeUploadFileForm();
+  submitButton.disabled = false;
 };
 
 const onSendFail = () => {
   renderFailMessage();
+  submitButton.disabled = false;
 };
 
 function onUploadCancelButtonClick(evt) {
@@ -44,7 +48,11 @@ function onUploadCancelButtonClick(evt) {
   closeUploadFileForm();
 }
 
-const onUploadFileFormChange = () => openUploadFileForm();
+const onUploadFileFormChange = (evt) => {
+  openUploadFileForm();
+  getUploadedPhoto(evt);
+};
+
 const onEffectsFieldChange = (evt) => chooseEffect(evt);
 
 function onDocumentKeydown(evt) {
@@ -60,6 +68,7 @@ function onDocumentKeydown(evt) {
 const onFormSubmit = (evt) => {
   evt.preventDefault();
   if (validatePristine()) {
+    submitButton.disabled = true;
     sendData(GET_DATA_URL, onSendSuccess, onSendFail, new FormData(evt.target));
   }
 };

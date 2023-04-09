@@ -1,8 +1,10 @@
 import {openBigPicture} from './big-picture.js';
 import {getData} from './api.js';
+import {initFilter} from './thumbnails-filter.js';
 
 const GET_DATA_URL = 'https://28.javascript.pages.academy/kekstagram/data';
 const ERROR_SHOW_TIME = 5000;
+const ERROR_TEXT = 'Ошибка загрузки. Попробуйте еще раз';
 const container = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
@@ -24,7 +26,10 @@ const renderThumbnails = (data) => {
   data.forEach((item) => container.append(createThumbnail(item)));
 };
 
-const onGetSuccess = (data) => renderThumbnails(data);
+const onGetSuccess = (data) => {
+  renderThumbnails(data);
+  initFilter(data);
+};
 
 const onGetFail = () => {
   const errorContainer = document.createElement('div');
@@ -40,7 +45,7 @@ const onGetFail = () => {
   errorContainer.style.color = 'black';
   errorContainer.style.backgroundColor = 'red';
 
-  errorContainer.textContent = 'Ошибка загрузки. Попробуйте еще раз';
+  errorContainer.textContent = ERROR_TEXT;
 
   document.body.append(errorContainer);
 
@@ -51,4 +56,4 @@ const onGetFail = () => {
 
 const getThumbnailsData = () => getData(GET_DATA_URL, onGetSuccess, onGetFail);
 
-export {getThumbnailsData};
+export {getThumbnailsData, renderThumbnails};
