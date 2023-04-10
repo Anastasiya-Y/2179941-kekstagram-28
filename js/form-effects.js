@@ -1,4 +1,9 @@
 const EFFECTS_RANGE = {
+  default: {
+    min: 0,
+    max: 100,
+    step: 1,
+  },
   chrome: {
     effect: 'grayscale',
     min: 0,
@@ -43,11 +48,11 @@ const effectLevel = sliderField.querySelector('.effect-level__value');
 const createSlider = () => {
   noUiSlider.create(sliderField, {
     range: {
-      min: 0,
-      max: 100,
+      min: EFFECTS_RANGE.default.min,
+      max: EFFECTS_RANGE.default.max,
     },
-    start: 100,
-    step: 1,
+    start: EFFECTS_RANGE.default.max,
+    step: EFFECTS_RANGE.default.step,
     connect: 'lower',
   });
 };
