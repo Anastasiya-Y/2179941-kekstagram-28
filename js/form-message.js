@@ -38,18 +38,32 @@ const onSuccessButtonClick = (evt) => {
   closeSuccessMessage();
 };
 
+const onErrorClick = (evt) => {
+  if (!evt.target.closest('.error__inner')) {
+    closeFailMessage();
+  }
+};
+
+const onSuccessClick = (evt) => {
+  if (!evt.target.closest('.success__inner')) {
+    closeSuccessMessage();
+  }
+};
+
 const renderFailMessage = () => {
   failMessage = failMessageTemplate.cloneNode(true);
   document.body.appendChild(failMessage);
   document.addEventListener('keydown', onDocumentKeydown);
-  document.querySelector('.error__button').addEventListener('click', onErrorButtonClick);
+  failMessage.querySelector('.error__button').addEventListener('click', onErrorButtonClick);
+  failMessage.addEventListener('click', onErrorClick);
 };
 
 const renderSuccessMessage = () => {
   successMessage = successMessageTemplate.cloneNode(true);
   document.body.appendChild(successMessage);
   document.addEventListener('keydown', onDocumentKeydown);
-  document.querySelector('.success__button').addEventListener('click', onSuccessButtonClick);
+  successMessage.querySelector('.success__button').addEventListener('click', onSuccessButtonClick);
+  successMessage.addEventListener('click', onSuccessClick);
 };
 
 export {renderFailMessage, renderSuccessMessage};
